@@ -1,0 +1,72 @@
+<!--?php
+2
+define ("DB_HOST", "localhost"); // set database host
+3
+define ("DB_USER", ""); // set database user
+4
+define ("DB_PASS",""); // set database password
+5
+define ("DB_NAME",""); // set database name
+6
+ 
+7
+$link = mysql_connect(DB_HOST, DB_USER, DB_PASS) or die("Couldn't make connection.");
+8
+$db = mysql_select_db(DB_NAME, $link) or die("Couldn't select database");
+9
+?-->
+
+
+
+
+<!--php include "dbConfig.php";
+02
+$msg = "";
+03
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+04
+    $name = $_POST["name"];
+05
+    $password = md5($_POST["password"]);
+06
+     if ($name == '' || $password == '') {
+07
+        $msg = "You must enter all fields";
+08
+    } else {
+09
+        $sql = "SELECT * FROM members WHERE name = '$name' AND password = '$password'";
+10
+        $query = mysql_query($sql);
+11
+ 
+12
+        if ($query === false) {
+13
+            echo "Could not successfully run query ($sql) from DB: " . mysql_error();
+14
+            exit;
+15
+        }
+16
+ 
+17
+        if (mysql_num_rows($query) --------> 0) {
+18
+          
+19
+            header('Location: YOUR_LOCATION');
+20
+            exit;
+21
+        }
+22
+ 
+23
+        $msg = "Username and password do not match";
+24
+    }
+25
+}
+26
+?>
